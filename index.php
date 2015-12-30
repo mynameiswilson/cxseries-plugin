@@ -183,7 +183,7 @@ class cxseries_upcoming_races_widget extends WP_Widget {
 
     function widget($args, $instance) {
 
-    		wp_reset_postdata();
+    	wp_reset_postdata();
         $number_of_posts = (!empty($instance['number_of_posts'])) ? $instance['number_of_posts'] : 999;
 
         echo '<div class="cxseries_upcoming_races">';
@@ -315,6 +315,52 @@ add_shortcode('race_details', 'cxseries_race_details_shortcode');
 
 
 /*
+ * Get Results by Category:Results and Tag:_YEAR_
+ */
+
+
+function cxseries_fetch_results() {
+    $number_of_races = 999;
+    $qargs = "post_type=attachment&order=DESC&orderby=date&category_name=results&post_status=any&posts_per_page=".$number_of_races;
+    return new WP_Query($qargs);
+}
+
+
+function cxseries_list_results() {
+    global $post;
+    wp_reset_postdata();
+
+    $the_query = cxseries_fetch_results();
+
+// TODO
+// get list of tags that match year format
+// cycle through each tag and query individually
+
+    if ( $the_query->have_posts() ):
+        echo "<ul>";
+        // The Loop
+        $post_count = 0;
+        while ( $the_query->have_posts() ) : $the_query->the_post();
+        ?>
+            <li><?php the_attachment_link(); ?></li>
+        <?php
+        $post_count++;
+
+        endwhile;
+
+          echo "</ul>";
+
+    else:
+
+        echo "<p>No results posted!</p>";
+
+    endif;
+    wp_reset_postdata();
+
+
+}
+
+/*
  * CUSTOM POST TYPE: RACES 
  */
 
@@ -351,6 +397,19 @@ function show_future_posts($posts){
    }
    return $posts;
 };
+
+
+// add categories for attachments 
+function add_categories_for_attachments() {     
+    register_taxonomy_for_object_type( 'category', 'attachment' ); 
+} 
+add_action( 'init' , 'add_categories_for_attachments' ); 
+
+// add tags for attachments 
+function add_tags_for_attachments() {     
+    register_taxonomy_for_object_type( 'post_tag', 'attachment' ); 
+} 
+add_action( 'init' , 'add_tags_for_attachments' );
 
 
 
