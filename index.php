@@ -9,73 +9,108 @@ Author: Ben Wilson
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 
-function display_cxseries_race_details($title=true) {
-		global $post;
 
-            $meta_keys = array("dates","location",'website','facebook','twitter','registration');
+function cxseries_fetch_races($number_of_races = 1) {
+		if ($number_of_races == 1):
+	            $qargs = "post_type=races&order=ASC&orderby=date&post_status=future&posts_per_page=".$number_of_races;
+		else:
+	            $qargs = "post_type=races&order=ASC&orderby=date&post_status=any&posts_per_page=".$number_of_races;
+		endif;
 
-            $meta = array();
+    return new WP_Query($qargs);
+}
 
-            $custom_fields = get_post_custom(); 
+function cxseries_display_next_race() {
+  wp_reset_postdata();
+  $the_query = cxseries_fetch_races(1);
+  if ( $the_query->have_posts() ):
+  	$post_count = 0;
+  	$number_of_posts = 1;
+		while ( $the_query->have_posts() && $post_count < $number_of_posts ) : $the_query->the_post();
+            echo '<div class="cxseries_next_race">';
+			cxseries_display_race_details();
+            echo '</div>';
+			$post_count++;
+		endwhile;
+	else:
+    echo "<p>No upcoming races. See ya next season!</p>";
+	endif;
+  wp_reset_postdata();
+}
 
-            $has_registration_link = false;
 
-            foreach ($meta_keys as $key):
+function cxseries_display_race_details($title=true) {
+	global $post;
 
-                if (isset($custom_fields[$key]) && is_array($custom_fields[$key])):
+    $meta_keys = array("dates","location",'website','facebook','twitter','registration');
 
-                    $meta[$key] = $custom_fields[$key][0];
+    $meta = array();
 
-                endif;
+    $custom_fields = get_post_custom(); 
 
-            endforeach; 
+    $has_registration_link = false;
+
+    foreach ($meta_keys as $key):
+
+        if (isset($custom_fields[$key]) && is_array($custom_fields[$key])):
+
+            $meta[$key] = $custom_fields[$key][0];
+
+        endif;
+
+    endforeach; 
 
 ?>
 <?php if ($title) : ?>
 		<?php $post_link = "/".$post->post_type."/".$post->post_name; ?>
         <span class="cxseries_name"><a href="<?php echo $post_link ?>"><?php the_title(); ?></a></span><br/>
 <?php endif; ?>
-                <span class="cxseries_date"><?php echo ( !isset($custom_fields['dates']) ) ?  get_the_date() : $custom_fields['dates'][0]; ?></span> &bull;
 
-                <?php foreach($meta as $key=>$value): 
+            <span class="cxseries_date"><?php echo ( !isset($custom_fields['dates']) ) ?  get_the_date() : $custom_fields['dates'][0]; ?></span> &bull;
+<?php //print_r($meta); ?>
+                
+            <?php 
 
-                    switch ($key):
+            foreach($meta as $key=>$value):
 
- 	                   case "location":
+                switch ($key):
+                    
+                    case "location":
 
-                        ?>                  <span class="cxseries_location"><?php echo $value ?></span><br/><?php
+                        ?>                  
 
-                            break;
+                        <span class="cxseries_location"><?php echo $value ?></span><br/>
+        <?php
 
-                        case "website":
+                        break;
 
+                    case "website":
         ?>
 
-            <a class="cxseries_link" href="<?php echo $value; ?>"><img src="<?php bloginfo('template_url')?>/img/link-20.png" alt="website" /></a>
-
-        <?  
-
-                            break;
-
-                        case "facebook":
-
-        ?>
-
-            <a class="cxseries_link" href="<?php echo $value; ?>"><img src="<?php bloginfo('template_url')?>/img/facebook-20.png" alt="facebook" /></a>
+            <a class="cxseries_link" href="<?php echo $value; ?>"><img src="<?php bloginfo('template_url')?>/assets/images/link-20.png" alt="website" /></a>
 
         <?php
 
-                            break;
+                        break;
 
-                        case "twitter": ?>
+                    case "facebook":
+        ?>
 
-                            <a class="cxseries_link" href="http://twitter.com/<?php echo $value ?>"><img src="<?php bloginfo('template_url')?>/img/twitter-20.png" alt="twitter" /></a> 
+            <a class="cxseries_link" href="<?php echo $value; ?>"><img src="<?php bloginfo('template_url')?>/assets/images/facebook-20.png" alt="facebook" /></a>
 
         <?php
 
-                            break;
+                        break;
 
-                        case "registration": 
+                    case "twitter": ?>
+
+                            <a class="cxseries_link" href="http://twitter.com/<?php echo $value ?>"><img src="<?php bloginfo('template_url')?>/assets/images/twitter-20.png" alt="twitter" /></a> 
+
+        <?php
+
+                        break;
+
+                    case "registration": 
                           if (!empty($value)):
                         	 $has_registration_link = true;
         ?>
@@ -83,13 +118,14 @@ function display_cxseries_race_details($title=true) {
                             <a class="btn btn-mini btn-success cxseries_link" href="<?php echo $value ?>">REGISTRATION</a>
 
 
-
         <?php
                           endif;
                             break;
 
                     endswitch;
-        endforeach; ?>
+
+
+            endforeach; ?>
         <?php
         		if (!$has_registration_link): ?>
                             <a class="btn btn-mini btn-success cxseries_link" href="<?php echo $post_link ?>">REGISTRATION</a>
@@ -105,7 +141,7 @@ function display_cxseries_race_details($title=true) {
  * WIDGET: Upcoming Races
  *
  */
-class cxseries_upcoming_races extends WP_Widget {     
+class cxseries_upcoming_races_widget extends WP_Widget {     
 
     public function __construct() {
         parent::__construct(
@@ -143,6 +179,8 @@ class cxseries_upcoming_races extends WP_Widget {
         return $instance;
     }
 
+    
+
     function widget($args, $instance) {
 
     		wp_reset_postdata();
@@ -154,45 +192,33 @@ class cxseries_upcoming_races extends WP_Widget {
             echo "<h2>".$instance['widget_title'].'</h2>';
         endif;
 
-
-				if ($number_of_posts == 1):
-
-			            $qargs = "post_type=races&order=ASC&orderby=date&post_status=future&posts_per_page=".$number_of_posts;
-
-				else:
-
-			            $qargs = "post_type=races&order=ASC&orderby=date&post_status=any&posts_per_page=".$number_of_posts;
-
-				endif;
-
-
-        $the_query = new WP_Query($qargs);
+        $the_query = cxseries_fetch_races($number_of_posts);
 
         if ( $the_query->have_posts() ):
 
-            echo "<ul>";
+          echo "<ul>";
 
-        // The Loop
+        	// The Loop
 
-        $post_count = 0;
+        	$post_count = 0;
 
-	        while ( $the_query->have_posts() && $post_count < $number_of_posts ) : $the_query->the_post();
+        	while ( $the_query->have_posts() && $post_count < $number_of_posts ) : $the_query->the_post();
 
-	        ?>
+        ?>
 
-	            <li>
-								<?php 
-								    display_cxseries_race_details();
-								?>
-	            </li>
+	          <li>
+							<?php 
+							    cxseries_display_race_details();
+							?>
+	          </li>
 
-					<?php
+				<?php
 
-	         $post_count++;
+        $post_count++;
 
-	        endwhile;
+        	endwhile;
 
-            echo "</ul>";
+          echo "</ul>";
 
         else:
 
@@ -210,7 +236,30 @@ class cxseries_upcoming_races extends WP_Widget {
 
 }
 
-add_action( 'widgets_init', create_function( '', 'register_widget( "cxseries_upcoming_races" );' ) );
+add_action( 'widgets_init', create_function( '', 'register_widget( "cxseries_upcoming_races_widget" );' ) );
+
+/*
+ * SHORTCODE: next_race
+ */
+
+add_shortcode( 'next_race', 'cxseries_next_race_shortcode' );
+function cxseries_next_race_shortcode( $atts ) {
+
+	// Configure defaults and extract the attributes into variables
+	extract( shortcode_atts( 
+		array( 
+			'class'   => '',
+		), 
+		$atts 
+	));
+
+	ob_start();
+  $the_query = cxseries_display_next_race();
+	$output = ob_get_clean();
+	return $output;
+
+}
+
 
 /*
  * SHORTCODE: upcoming_races
@@ -223,7 +272,7 @@ function cxseries_upcoming_races_shortcode( $atts ) {
 	extract( shortcode_atts( 
 		array( 
 			'class'   => '',
-			'races' => 1
+			'races' => 999
 		), 
 		$atts 
 	));
@@ -241,7 +290,7 @@ function cxseries_upcoming_races_shortcode( $atts ) {
 		);
 
 	ob_start();
-	cxseries_upcoming_races::widget( $args,$instance ); 
+	cxseries_upcoming_races_widget::widget( $args,$instance ); 
 	$output = ob_get_clean();
 	return $output;
 
@@ -258,7 +307,7 @@ function cxseries_race_details_shortcode( $attributes ) {
     'class' => ''
   ), $attributes ) );
 
-  display_cxseries_race_details($title=false);
+  cxseries_display_race_details($title=false);
 
 }
 
