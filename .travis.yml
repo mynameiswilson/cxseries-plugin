@@ -1,0 +1,27 @@
+sudo: false
+language: php
+php:
+- 5.6
+matrix:
+  allow_failures:
+  - php: nightly
+addons:
+  apt:
+    packages:
+    - sshpass
+  ssh_known_hosts: thelocust.org
+cache:
+  directories:
+  - bower_components
+  - node_modules
+install:
+- composer global require squizlabs/php_codesniffer
+script:
+- phpcs --standard=ruleset.xml --extensions=php -n -s .
+after_success:
+- mkdir cxseries-plugin-latest
+- mv * cxseries-plugin-latest
+- tar -czf cxseries-plugin-latest.tgz build
+- export SSHPASS=$DEPLOY_PASS
+- sshpass -e scp cxseries-plugin-latest.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+- sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy-cxseries-plugin.sh
