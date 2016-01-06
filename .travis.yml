@@ -10,12 +10,6 @@ addons:
     packages:
     - sshpass
   ssh_known_hosts: thelocust.org
-install:
-  - composer self-update && composer --version
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require squizlabs/php_codesniffer
-script:
-  - phpcs --standard=PHPCS --extensions=php -n -s .
 after_success:
   - mkdir cxseries-plugin-latest
   - mv * cxseries-plugin-latest
