@@ -11,17 +11,11 @@ addons:
     - sshpass
   ssh_known_hosts: thelocust.org
 install:
-  - npm install -g npm@latest
-  - npm install -g jscs
-  - npm install
   - composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require squizlabs/php_codesniffer
 script:
-  - npm run build
-  - npm run jshint
-  - npm run jscs
-  - phpcs --standard=ruleset.xml --extensions=php -n -s .
+  - phpcs --standard=PHPCS --extensions=php -n -s .
 after_success:
   - mkdir cxseries-plugin-latest
   - mv * cxseries-plugin-latest
