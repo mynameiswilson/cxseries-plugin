@@ -11,37 +11,36 @@ namespace CXSeries\CXSeriesPlugin;
 defined('ABSPATH') or die('No script kiddies please!');
 
 /* Custom Post type: Races */
-add_action('init', 'CXSeries\CXSeriesPlugin\CreateRacesPostType');
+add_action('init', __NAMESPACE__ . '\CreateRacesPostType');
 
 /* Widget: Upcoming Races */
 add_action('widgets_init', create_function('', 'register_widget( "CXSeries\CXSeriesPlugin\UpcomingRacesWidget" );'));
 
 /* Shortcode: Next Race */
-add_shortcode('next_race', 'CXSeries\CXSeriesPlugin\NextRaceShortcode');
+add_shortcode('next_race', __NAMESPACE__ . '\NextRaceShortcode');
 
 /* Shortcode: Upcoming Races */
-add_shortcode('upcoming_races', 'CXSeries\CXSeriesPlugin\UpcomingRacesShortcode');
+add_shortcode('upcoming_races', __NAMESPACE__ . '\UpcomingRacesShortcode');
 
 /* Shortcode: Race Details */
-add_shortcode('race_details', 'CXSeries\CXSeriesPlugin\RaceDetailsShortcode');
+add_shortcode('race_details', __NAMESPACE__ . '\RaceDetailsShortcode');
 
 /* Shortcode: BikeReg Registration Form */
-add_shortcode('bikereg', 'CXSeries\CXSeriesPlugin\BikeRegFormShortcode');
-
+add_shortcode('bikereg', __NAMESPACE__ . '\BikeRegFormShortcode');
 
 /* Add metaboxes to Races post type */
-add_action('add_meta_boxes', 'CXSeries\CXSeriesPlugin\RaceMetaboxSetup');
+add_action('add_meta_boxes', __NAMESPACE__ . '\RaceMetaboxSetup');
 
 /* Saving Race Labels and Links on Race posts */
-add_action('save_post', 'CXSeries\CXSeriesPlugin\SaveLabelMetaboxes', 10, 2);
-add_action('save_post', 'CXSeries\CXSeriesPlugin\SaveLinkMetaboxes', 10, 2);
+add_action('save_post', __NAMESPACE__ . '\SaveLabelMetaboxes', 10, 2);
+add_action('save_post', __NAMESPACE__ . '\SaveLinkMetaboxes', 10, 2);
 
 /* Show Future Posts */
-add_filter('the_posts', 'CXSeries\CXSeriesPlugin\ShowFuturePosts');
+add_filter('the_posts', __NAMESPACE__ . '\ShowFuturePosts');
 
 /* Results: Allow Attachments to be Categorized */
-add_action('init', 'CXSeries\CXSeriesPlugin\AddCategoriesForAttachments');
-add_action('init', 'CXSeries\CXSeriesPlugin\AddTagsForAttachments');
+add_action('init', __NAMESPACE__ . '\AddCategoriesForAttachments');
+add_action('init', __NAMESPACE__ . '\AddTagsForAttachments');
 
 /*
  * Fetch Races
@@ -404,10 +403,11 @@ function CreateRacesPostType()
                 'name' => __('Races'),
                 'singular_name' => __('Race')
         ),
-        'supports' => array('title','editor','custom-fields'),
+        'supports' => array('title','editor'),
         'public' => true,
         'has_archive' => false,
         'rewrite' => array('slug' => 'races'),
+        'menu_icon' => "dashicons-awards",
         )
     );
 }
@@ -432,7 +432,7 @@ function RaceMetaboxSetup()
         add_meta_box(
             'cxseries_race_'.$label_id,
             $label_name,
-            'CXSeries\CXSeriesPlugin\RaceLabelsMetaboxes',
+            __NAMESPACE__ . '\RaceLabelsMetaboxes',
             'races',
             'normal',
             'high'
@@ -443,7 +443,7 @@ function RaceMetaboxSetup()
         add_meta_box(
             'cxseries_race_'.$link_id,
             $link_name,
-            'CXSeries\CXSeriesPlugin\RaceLinksMetaboxes',
+            __NAMESPACE__ . '\RaceLinksMetaboxes',
             'races',
             'normal',
             'high',
@@ -456,10 +456,8 @@ function RaceMetaboxSetup()
 
 
 /*
- * METABOX: Location
+ * METABOXES: Location, Sponsored By, etc
  */
-
-
 function RaceLabelsMetaboxes($post, $label)
 {
     wp_nonce_field(basename(__FILE__), $label['id'].'_nonce');
@@ -520,9 +518,8 @@ function SaveLabelMetaboxes($post_id, $post)
 
 
 /*
- * METABOXES: Race Links
+ * METABOXES: Race Links (FB, Twitter, Website, Registration)
  */
-
 function RaceLinksMetaboxes($post, $link)
 {
     wp_nonce_field(basename(__FILE__), $link['id'].'_nonce');
