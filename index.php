@@ -5,10 +5,14 @@ Plugin URI: http://cxseries.com
 Description: A plugin for the CXSeries theme, which provides Races as posts, upcoming races, and a number of other features.
 Version: 201612
 Author: Ben Wilson
+Author URI: http://benwilson.org
 */
 namespace CXSeries\CXSeriesPlugin;
 
-defined('ABSPATH') or die('No script kiddies please!');
+// If this file is accessed directly, then abort.
+if (! defined('WPINC')) {
+    die;
+}
 
 /* Custom Post type: Races */
 add_action('init', __NAMESPACE__ . '\CreateRacesPostType');
