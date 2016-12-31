@@ -18,6 +18,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
 namespace CXSeries\CXSeriesPlugin;
 
 // If this file is accessed directly, then abort.
@@ -67,7 +68,7 @@ add_action( 'init', __NAMESPACE__ . '\add_tags_for_attachments' );
  * @return WP_Query results.
  */
 function fetch_races( $number_of_races = 1 ) {
-	if ( $number_of_races == 1 ) :
+	if ( 1 == $number_of_races ) :
 		// if only one race, choose next future race.
 		$qargs = 'post_type=races&order=ASC&orderby=date&post_status=future&posts_per_page=' . $number_of_races;
 	else :
@@ -361,10 +362,10 @@ function race_details_shortcode( $attributes ) {
  */
 function bikereg_form_shortcode( $attributes, $event_id = null ) {
 	if ( is_numeric( $event_id ) ) :
-		$html = '<div class="" style="max -width:800px; margin:auto;" id="regWrapper">' .
-			'<script src="https:// www.bikereg.com/Scripts/athleteRegWidget.js"></script> ' .
-			'<iframe src="https://www.bikereg.com/' . esc_attr( $event_id ) . '?if=1" style="height:100%;width:100%;border-radius:7px;" frameBorder="0" id="regFrame"></iframe> ' .
-			'</div>';
+		$html = '<div class="" style="max -width:800px; margin:auto;" id="regWrapper">
+      <iframe src="https://www.bikereg.com/' . esc_attr( $event_id ) . '?if=1" style="height:100%;width:100%;border-radius:7px;" frameBorder="0" id="regFrame"></iframe>
+      </div>';
+		wp_enqueue_script( 'bikereg_athlete_widget', 'https:// www.bikereg.com/Scripts/athleteRegWidget.js' );
 		return $html;
 		else :
 			return false;
@@ -545,7 +546,7 @@ function create_races_post_type() {
 		foreach ( $cxseries_race_labels as $label_name => $label_id ) :
 
 			/* Verify the nonce before proceeding. */
-			if ( ! isset( $_POST[ 'cxseries_race_' . $label_id . '_nonce' ] ) || ! wp_verify_nonce( wp_unslash( $_POST[ 'cxseries_race_' . $label_id . '_nonce' ] ) , basename( __FILE__ ) ) ) {
+			if ( ! isset( $_POST[ 'cxseries_race_' . $label_id . '_nonce' ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ 'cxseries_race_' . $label_id . '_nonce' ] ) ) , basename( __FILE__ ) ) ) {
 				return $post_id;
 			}
 
@@ -558,7 +559,7 @@ function create_races_post_type() {
 			}
 
 			/* Get the posted data and sanitize it for use as an HTML class. */
-			$new_meta_value = (isset( $_POST[ 'cxseries_race_' . $label_id ] ) ? $_POST[ 'cxseries_race_' . $label_id ] : '');
+			$new_meta_value = (isset( $_POST[ 'cxseries_race_' . $label_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'cxseries_race_' . $label_id ] ) ) : '');
 
 			/* Get the meta key. */
 			$meta_key = 'cxseries_race_' . $label_id;
@@ -617,7 +618,7 @@ function create_races_post_type() {
 		foreach ( $cxseries_race_links as $link_name => $link_id ) :
 
 			/* Verify the nonce before proceeding. */
-			if ( ! isset( $_POST[ 'cxseries_race_' . $link_id . '_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'cxseries_race_' . $link_id . '_nonce' ], basename( __FILE__ ) ) ) {
+			if ( ! isset( $_POST[ 'cxseries_race_' . $link_id . '_nonce' ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ 'cxseries_race_' . $link_id . '_nonce' ] ) ), basename( __FILE__ ) ) ) {
 				return $post_id;
 			}
 
@@ -629,10 +630,9 @@ function create_races_post_type() {
 				return $post_id;
 			}
 
-			/*
-			Get the posted data. */
+			// Get the posted data.
 			// TODO validate for valid link.
-			$new_meta_value = (isset( $_POST[ 'cxseries_race_' . $link_id ] ) ? $_POST[ 'cxseries_race_' . $link_id ] : '');
+			$new_meta_value = (isset( $_POST[ 'cxseries_race_' . $link_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'cxseries_race_' . $link_id ] ) ) : '');
 
 			/* Get the meta key. */
 			$meta_key = 'cxseries_race_' . $link_id;
@@ -663,8 +663,11 @@ function create_races_post_type() {
 	 */
 	function show_future_posts( $posts ) {
 		global $wp_query, $wpdb;
-		if ( is_single() && $wp_query->post_count == 0 ) {
-			$posts = $wpdb->get_results( $wp_query->request );
+		$db = $wpdb;
+		$query = $wp_query;
+
+		if ( is_single() && 0 == $query->post_count ) {
+			$posts = $db->get_results( $query->request );
 		}
 		return $posts;
 	}
