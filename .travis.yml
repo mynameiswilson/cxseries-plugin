@@ -1,127 +1,82 @@
-# Travis CI (MIT License) configuration file for the WordPress Plugin Boilerplate
-# @link https://travis-ci.org/
-
-# For use with the WordPress Plugin Boilerplate
-# @link https://github.com/seb86/WordPress-Plugin-Boilerplate
-
-# Declare project language.
-# @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
-
-# Declare versions of PHP to use. Use one decimal max.
 php:
-    # aliased to a recent 5.5.x version
-    - 5.6
-
-# Declare which versions of WordPress to test against.
-# Also declare whether or not to test in Multisite.
-env:
-    # Trunk
-    # @link https://github.com/WordPress/WordPress
-    - WP_VERSION=master WP_MULTISITE=0
-    - WP_VERSION=master WP_MULTISITE=1
-    # WordPress 4.6
-    # @link https://github.com/WordPress/WordPress/tree/3.9-branch
-    - WP_VERSION=4.6 WP_MULTISITE=0
-    - WP_VERSION=4.6 WP_MULTISITE=1
-    # WordPress 4.5
-    # @link https://github.com/WordPress/WordPress/tree/3.8-branch
-    - WP_VERSION=4.5 WP_MULTISITE=0
-    - WP_VERSION=4.5 WP_MULTISITE=1
-  global:
-  - secure: a9ZrL4Nx6B6sCDzmFNI2F2zetyrZBLPG3lO1hUNPOjBBCHeqLIvJr8LrJ9GpIgG3mp5oJJMFw6ZtMtJCehl85Wnxps1cDA/MC5w63+2NEjfzOcnXkFaGK36TEmMDbH7NvEtc+JRGVeCCiJejdbYbs+Qxs62vTmWigOqPuA8WGTf2is1lMVAc4R4KWxWB8CLMnyWwdcaFzqVi8LIgsxhlJ5XO1G8/IsOauB+dplt4UptT0Vujxgs42sJnc1IN71pzcizBpLDFbb/08JNu1zuFuuBvjWRgPFVz0MpSVyIWIfTk+TTgkiwPKuQM5RQCKqsVNT7Nfv12EFfAOEKGmxHE3Qt6Wv9F7588arxegYSeLNA/Orhl7UeOIk6ht5S9NDzmGPlXcKdmoVw9l3btDB8uIZQmSLxQTOMJlWJovVRBTXvZC/hy7XiPo1J1oJStvJ3Zvi4y9Rv8yRwtbdiBXVZ3hgFVvHrywlKs0+RVQAp2Gg8LndMCwFt9a3XVgm8y2qGHLbfhiWgikv1Z4Edbw7zwjHX/rx7RieAvzIGyrKcRhPQDrq7ODSmlN9V7r2ywi2YyK4kKd17wZIVT8+93HGgqLhnUUxydwFuDG8e2oXF0s1g0Eyh+OzD9ST1GX1qxTj+jnJ9gG5IwVRMX3n3op3d2EspMMB5s9cttiKtAF1aKQGQ=
-  - secure: cE/5iX6WxouZM/mAExu9/aPH0NP1EuKcksOrQZpsXvbOusQTR91ba5B4QAHtezdVb1/NDqlrEOcHMw49ezDOD/tJfVnESJK5nYBz6Gi+1zr0qhMDBGMjYp5bbUdynV6bM40R19b1IR1w2AU2rpzMKseKcbJMy2E6++Pz4bkuqEjawlJlmvV53JN5ivuDIDBw9U7ZgwAjAClgfabqUf6VU4YXk1vHdGVBrOzy3gFlvlH40ZWqkfHtvdT7idQLLzGKcQlGh9vconJSamzICM/2Lp6r17VHGG/nygLH3GcGEwOjoLMGbjNSdn6uOyTTXAIKaPU02YWpaTFphFAIykStJxVHPRQ2doQdmG+imOeZMGykzA0JXJzZV1ksVEVl0VbXluv+45Cv3mg2DxP1WYiLRb+GLPwQyUijb3hmcTbAgN3F7d2MNeKUZAv2VYRH9SaNHn4sAZX6j5Mmos4Mfk8/PKAa/6M7BSQFB+rITZ09+dgzffHMZo5MLYE1SwZg6aJT0Lb2sj5hLTICf1K3EO3kTVwkDvi/SkhNt7XBx6Wrbwcunn1errRTrGEb/cdpFjLuSZi2bUMHB1AaY29RFeobnp7+kbuT3qYMgjm49EibYMEUwsj0RE250eWWaMno8d91nfhCdE5hGWLC90AXpIq1oZ/m5S9YlyqZ+KM7/wcrYmU=
-  - secure: DP23Gk/LuK5LlupxS3+7vQnrVO44slWskNDc5i8lz4+F3GNZ2BGTXGNufnfTnM6IU5HKLm86Wna65K8wXFNIFZx5U6aF7mizbhzBctJdc2VMNncVZKYFdyV8SivCohblTb//yi46imQbkgkfjqE5+a2pIJ1Gc/UaaMRJzZilDvZq1MdMhQRn9EoN3/aXYVyUlJ2L9ERvaF84w80jqhImx5e+YstOJG/FmzRp/OpmlBGs5vfyG6YZOT9nSjZIkpbzyjOr34wULJEuSAxoEKGdXkEWI9MuOEQ3whB2SFhxwrrSaids4HMas0ycqReHAY84Knauz7Cfb450DUia2X2NXUJWrWpf42HtIxTE4Cwc5GWuRTePhIYaL/w+D8NULo0ykNH2R303L5JhEDe51sXNovJGeXYiVMow83o0QD+fEoi5YTn8F3jXIRnEWKkPkjVVeMKGvRYSt9UEICWiHciAwa9AamjklKZedH/HK+x2ffhr5WpvfzY7plN0P7YuD+Rz9MZwo2b0VuPa1DPKUpQI9r64j3kg2mzq7lD+RijobRERCCWtkDDU+zgTU3Q0Uxlcoa+2fKfkAGmV3k+8c4Cx2E3CKB5td0/OtUB1LuUiRtR7Lzx4LWH0olg9P2SFf0KwfTzRE8rFn/AKURH/Nb4ST2iTGU3BjWeX7X6LmnDSGQE=
-  - secure: hc3CRgIWTZeJgzLd4b0HOj/CEXQIPDxGhj73g92LnPxQbPgCjCr+SUK9Fm0uppWM9Qhp2CYE4RtQK9LrypiPAL45s0ciBvbTq5QFXFGZ3BCaWdNSdptnFEmwMjUnGeQTkhwPVUVrIHYN4hbGdi6M3HQps2WrOqkp71WfXmADltMbWc1Bkb1Pzmk0W0bQSizZMmmhxJR61ax1uGY2br8au6DYGoXC9f6GNIK8/ILjoQHtufwtq9uJ1cPlzZhjyWiDB/FRkh/SSClmxl+MtudMBjw+PCTfJKhVwJuwmlVGVPO7JY7mNCP5A5UZf+5DkASOYiYrQTbCtHpHSiYNgD2c7oVMqi2quhx44oXfxsXYjFFu8uSmEAWtEjuMNcytshkWo5XCMI5jX68IIO4AqY2qb7RG4MI+m5rORz3sKLbj1VKTczdy+sDAmbamC+k7ZwNcHF22sGGhSDY1/7P5rv2CdtBuvmp2563eyY8MufKS4oA+jEPRaIKH6c1Nd6hPV0wwPcHcxzy18t6Rz9JBVqYB6ePATDbCw+StM1m5kkp+jh88qaksIF5BGHSylutJ5j0jxtH8DjDE6BGKVkwtBQLuuFPB9KS71Gvd/p9E0Ba4U3rrfMsy/9GwwPxcealFi1QyNJi8KqgsiT+8y2F2jvCcq4BftzuXQUuuIvQrMphd2e0=
-
-
-# Declare 5.6 beta in test matrix.
-# @link http://docs.travis-ci.com/user/build-configuration/
+  - 5.6
 matrix:
-    include:
-        - php: 5.6
-          env: WP_VERSION=master
-    allow_failures:
-        - php: 5.6
-    fast_finish: true
+  include:
+      - php: 5.6
+        env: WP_VERSION=master
+  allow_failures:
+      - php: 5.6
+  fast_finish: true
 
-# Use this to prepare the system to install prerequisites or dependencies.
-# e.g. sudo apt-get update.
-# Failures in this section will result in build status 'errored'.
-# before_install:
-
-# Use this to prepare your build for testing.
-# e.g. copy database configurations, environment variables, etc.
-# Failures in this section will result in build status 'errored'.
 before_script:
-    # Set up WordPress installation.
-    - export WP_DEVELOP_DIR=/tmp/wordpress/
-    - mkdir -p $WP_DEVELOP_DIR
-    # Use the Git mirror of WordPress.
-    - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_DEVELOP_DIR
-    # Set up plugin information.
-    - plugin_slug=$(basename $(pwd))
-    - plugin_dir=$WP_DEVELOP_DIR/src/wp-content/plugins/$plugin_slug
-    - cd ..
-    - mv $plugin_slug $plugin_dir
-    # Set up WordPress configuration.
-    - cd $WP_DEVELOP_DIR
-    - echo $WP_DEVELOP_DIR
-    - cp wp-tests-config-sample.php wp-tests-config.php
-    - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
-    - sed -i "s/yourusernamehere/root/" wp-tests-config.php
-    - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    # Create WordPress database.
-    - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    # Install CodeSniffer for WordPress Coding Standards checks.
-    - git clone https://github.com/squizlabs/PHP_CodeSniffer.git php-codesniffer
-    # Install WordPress Coding Standards.
-    - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git wordpress-coding-standards
-    # Hop into CodeSniffer directory.
-    - cd php-codesniffer
-    # Set install path for WordPress Coding Standards
-    # @link https://github.com/squizlabs/PHP_CodeSniffer/blob/4237c2fc98cc838730b76ee9cee316f99286a2a7/CodeSniffer.php#L1941
-    - scripts/phpcs --config-set installed_paths ../wordpress-coding-standards
-    # Hop into plugins directory.
-    - cd $plugin_dir
-    # After CodeSniffer install you should refresh your path.
-    - phpenv rehash
-    #- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+  # Set up WordPress installation.
+  - export WP_DEVELOP_DIR=/tmp/wordpress/
+  - mkdir -p $WP_DEVELOP_DIR
+  # Use the Git mirror of WordPress.
+  - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_DEVELOP_DIR
+  # Set up plugin information.
+  - plugin_slug=$(basename $(pwd))
+  - plugin_dir=$WP_DEVELOP_DIR/src/wp-content/plugins/$plugin_slug
+  - cd ..
+  - mv $plugin_slug $plugin_dir
+  # Set up WordPress configuration.
+  - cd $WP_DEVELOP_DIR
+  - echo $WP_DEVELOP_DIR
+  - cp wp-tests-config-sample.php wp-tests-config.php
+  - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
+  - sed -i "s/yourusernamehere/root/" wp-tests-config.php
+  - sed -i "s/yourpasswordhere//" wp-tests-config.php
+  # Create WordPress database.
+  - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
+  # Install CodeSniffer for WordPress Coding Standards checks.
+  - git clone https://github.com/squizlabs/PHP_CodeSniffer.git php-codesniffer
+  # Install WordPress Coding Standards.
+  - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git wordpress-coding-standards
+  # Hop into CodeSniffer directory.
+  - cd php-codesniffer
+  # Set install path for WordPress Coding Standards
+  # @link https://github.com/squizlabs/PHP_CodeSniffer/blob/4237c2fc98cc838730b76ee9cee316f99286a2a7/CodeSniffer.php#L1941
+  - scripts/phpcs --config-set installed_paths ../wordpress-coding-standards
+  # Hop into plugins directory.
+  - cd $plugin_dir
+  # After CodeSniffer install you should refresh your path.
+  - phpenv rehash
+  #- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 
 script:
-    phpunit
-    - bin/atoum --test-all
-
-# Run test script commands.
-# Default is specific to project language.
-# All commands must exit with code 0 on success. Anything else is considered failure.
-#script:
-    # Search for PHP syntax errors.
-    ##- find . \( -name '*.php' \) -exec php -lf {} \;
-    # WordPress Coding Standards
-    # @link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
-    # @link http://pear.php.net/package/PHP_CodeSniffer/
-    # -p flag: Show progress of the run.
-    # -s flag: Show sniff codes in all reports.
-    # -v flag: Print verbose output.
-    # -n flag: Do not print warnings (shortcut for --warning-severity=0)
-    # --standard: Use WordPress as the standard.
-    # --extensions: Only sniff PHP files.
-    ##- $WP_DEVELOP_DIR/php-codesniffer/scripts/phpcs -p -s -v -n . --standard=./codesniffer.ruleset.xml --extensions=php
-
+  phpunit
+  - bin/atoum --test-all
 after_script:
-    - php vendor/bin/coveralls --config tests/.coveralls.yml -v --exclude-no-stmt
+  - php vendor/bin/coveralls --config tests/.coveralls.yml -v --exclude-no-stmt
 
 # Receive notifications for build results.
 # @link http://docs.travis-ci.com/user/notifications/#Email-notifications
 notifications:
-    email: true
-
-
+  email: true
 
 after_success:
 - mkdir cxseries-plugin-latest
 - mv * cxseries-plugin-latest
 - tar -czf cxseries-plugin-latest.tgz build
 - export SSHPASS=$DEPLOY_PASS
-- sshpass -e scp cxseries-plugin-latest.tgz $DEPLOY_USER@$DEPLOY_HOST:
+- sshpass -e scp cxseries-plugin-latest.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+
+env:
+  global:
+  # Trunk
+  # @link https://github.com/WordPress/WordPress
+  - WP_VERSION=master WP_MULTISITE=0
+  - WP_VERSION=master WP_MULTISITE=1
+  # WordPress 4.6
+  # @link https://github.com/WordPress/WordPress/tree/3.9-branch
+  - WP_VERSION=4.6 WP_MULTISITE=0
+  - WP_VERSION=4.6 WP_MULTISITE=1
+  # WordPress 4.5
+  # @link https://github.com/WordPress/WordPress/tree/3.8-branch
+  - WP_VERSION=4.5 WP_MULTISITE=0
+  - WP_VERSION=4.5 WP_MULTISITE=1
+  - secure: a9ZrL4Nx6B6sCDzmFNI2F2zetyrZBLPG3lO1hUNPOjBBCHeqLIvJr8LrJ9GpIgG3mp5oJJMFw6ZtMtJCehl85Wnxps1cDA/MC5w63+2NEjfzOcnXkFaGK36TEmMDbH7NvEtc+JRGVeCCiJejdbYbs+Qxs62vTmWigOqPuA8WGTf2is1lMVAc4R4KWxWB8CLMnyWwdcaFzqVi8LIgsxhlJ5XO1G8/IsOauB+dplt4UptT0Vujxgs42sJnc1IN71pzcizBpLDFbb/08JNu1zuFuuBvjWRgPFVz0MpSVyIWIfTk+TTgkiwPKuQM5RQCKqsVNT7Nfv12EFfAOEKGmxHE3Qt6Wv9F7588arxegYSeLNA/Orhl7UeOIk6ht5S9NDzmGPlXcKdmoVw9l3btDB8uIZQmSLxQTOMJlWJovVRBTXvZC/hy7XiPo1J1oJStvJ3Zvi4y9Rv8yRwtbdiBXVZ3hgFVvHrywlKs0+RVQAp2Gg8LndMCwFt9a3XVgm8y2qGHLbfhiWgikv1Z4Edbw7zwjHX/rx7RieAvzIGyrKcRhPQDrq7ODSmlN9V7r2ywi2YyK4kKd17wZIVT8+93HGgqLhnUUxydwFuDG8e2oXF0s1g0Eyh+OzD9ST1GX1qxTj+jnJ9gG5IwVRMX3n3op3d2EspMMB5s9cttiKtAF1aKQGQ=
+  - secure: cE/5iX6WxouZM/mAExu9/aPH0NP1EuKcksOrQZpsXvbOusQTR91ba5B4QAHtezdVb1/NDqlrEOcHMw49ezDOD/tJfVnESJK5nYBz6Gi+1zr0qhMDBGMjYp5bbUdynV6bM40R19b1IR1w2AU2rpzMKseKcbJMy2E6++Pz4bkuqEjawlJlmvV53JN5ivuDIDBw9U7ZgwAjAClgfabqUf6VU4YXk1vHdGVBrOzy3gFlvlH40ZWqkfHtvdT7idQLLzGKcQlGh9vconJSamzICM/2Lp6r17VHGG/nygLH3GcGEwOjoLMGbjNSdn6uOyTTXAIKaPU02YWpaTFphFAIykStJxVHPRQ2doQdmG+imOeZMGykzA0JXJzZV1ksVEVl0VbXluv+45Cv3mg2DxP1WYiLRb+GLPwQyUijb3hmcTbAgN3F7d2MNeKUZAv2VYRH9SaNHn4sAZX6j5Mmos4Mfk8/PKAa/6M7BSQFB+rITZ09+dgzffHMZo5MLYE1SwZg6aJT0Lb2sj5hLTICf1K3EO3kTVwkDvi/SkhNt7XBx6Wrbwcunn1errRTrGEb/cdpFjLuSZi2bUMHB1AaY29RFeobnp7+kbuT3qYMgjm49EibYMEUwsj0RE250eWWaMno8d91nfhCdE5hGWLC90AXpIq1oZ/m5S9YlyqZ+KM7/wcrYmU=
+  - secure: DP23Gk/LuK5LlupxS3+7vQnrVO44slWskNDc5i8lz4+F3GNZ2BGTXGNufnfTnM6IU5HKLm86Wna65K8wXFNIFZx5U6aF7mizbhzBctJdc2VMNncVZKYFdyV8SivCohblTb//yi46imQbkgkfjqE5+a2pIJ1Gc/UaaMRJzZilDvZq1MdMhQRn9EoN3/aXYVyUlJ2L9ERvaF84w80jqhImx5e+YstOJG/FmzRp/OpmlBGs5vfyG6YZOT9nSjZIkpbzyjOr34wULJEuSAxoEKGdXkEWI9MuOEQ3whB2SFhxwrrSaids4HMas0ycqReHAY84Knauz7Cfb450DUia2X2NXUJWrWpf42HtIxTE4Cwc5GWuRTePhIYaL/w+D8NULo0ykNH2R303L5JhEDe51sXNovJGeXYiVMow83o0QD+fEoi5YTn8F3jXIRnEWKkPkjVVeMKGvRYSt9UEICWiHciAwa9AamjklKZedH/HK+x2ffhr5WpvfzY7plN0P7YuD+Rz9MZwo2b0VuPa1DPKUpQI9r64j3kg2mzq7lD+RijobRERCCWtkDDU+zgTU3Q0Uxlcoa+2fKfkAGmV3k+8c4Cx2E3CKB5td0/OtUB1LuUiRtR7Lzx4LWH0olg9P2SFf0KwfTzRE8rFn/AKURH/Nb4ST2iTGU3BjWeX7X6LmnDSGQE=
+  - secure: hc3CRgIWTZeJgzLd4b0HOj/CEXQIPDxGhj73g92LnPxQbPgCjCr+SUK9Fm0uppWM9Qhp2CYE4RtQK9LrypiPAL45s0ciBvbTq5QFXFGZ3BCaWdNSdptnFEmwMjUnGeQTkhwPVUVrIHYN4hbGdi6M3HQps2WrOqkp71WfXmADltMbWc1Bkb1Pzmk0W0bQSizZMmmhxJR61ax1uGY2br8au6DYGoXC9f6GNIK8/ILjoQHtufwtq9uJ1cPlzZhjyWiDB/FRkh/SSClmxl+MtudMBjw+PCTfJKhVwJuwmlVGVPO7JY7mNCP5A5UZf+5DkASOYiYrQTbCtHpHSiYNgD2c7oVMqi2quhx44oXfxsXYjFFu8uSmEAWtEjuMNcytshkWo5XCMI5jX68IIO4AqY2qb7RG4MI+m5rORz3sKLbj1VKTczdy+sDAmbamC+k7ZwNcHF22sGGhSDY1/7P5rv2CdtBuvmp2563eyY8MufKS4oA+jEPRaIKH6c1Nd6hPV0wwPcHcxzy18t6Rz9JBVqYB6ePATDbCw+StM1m5kkp+jh88qaksIF5BGHSylutJ5j0jxtH8DjDE6BGKVkwtBQLuuFPB9KS71Gvd/p9E0Ba4U3rrfMsy/9GwwPxcealFi1QyNJi8KqgsiT+8y2F2jvCcq4BftzuXQUuuIvQrMphd2e0=
