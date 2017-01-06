@@ -43,6 +43,7 @@ after_success:
 - tar -czf cxseries-plugin-latest.tgz cxseries-plugin-latest
 - export SSHPASS=$DEPLOY_PASS
 - sshpass -e scp cxseries-plugin-latest.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+- sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy-cxseries-plugin.sh
 
 env:
   global:
